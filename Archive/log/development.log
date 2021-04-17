@@ -49,3 +49,21 @@ puma (5.2.2) lib/puma/thread_pool.rb:337:in `with_force_shutdown'
 puma (5.2.2) lib/puma/request.rb:75:in `handle_request'
 puma (5.2.2) lib/puma/server.rb:431:in `process_client'
 puma (5.2.2) lib/puma/thread_pool.rb:145:in `block in spawn_thread'
+Started POST "/api/users/" for ::1 at 2021-04-17 18:06:38 +1000
+  [1m[35m (3.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by Api::UsersController#create as */*
+  Parameters: {"user"=>{"username"=>"eden123", "password"=>"[FILTERED]"}}
+[31mUnpermitted parameter: :username[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/api/users_controller.rb:9:in `create'
+  [1m[36mUser Exists? (17.8ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."name" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  ↳ app/controllers/api/users_controller.rb:9:in `create'
+  [1m[36mUser Create (13.5ms)[0m  [1m[32mINSERT INTO "users" ("password_digest") VALUES ($1) RETURNING "id"[0m  [["password_digest", "$2a$12$FBB.GLZrzDeG0KJvpsbKOOUwV4SEWY4IU9Sy0IH8f9nnVJkGjiKQm"]]
+  ↳ app/controllers/api/users_controller.rb:9:in `create'
+  [1m[36mTRANSACTION (2.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/api/users_controller.rb:9:in `create'
+  [1m[36mUser Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."name" IS NULL AND "users"."id" != $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/api/users_controller.rb:10:in `create'
+Completed 201 Created in 350ms (Views: 0.4ms | ActiveRecord: 61.5ms | Allocations: 11077)
+
+
